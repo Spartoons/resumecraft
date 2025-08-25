@@ -27,3 +27,11 @@
    ```bash
    git clone https://github.com/YOUR_USERNAME/resumecraft.git
    cd resumecraft
+2. Install dependencies:
+   ```bash
+   npm install
+3. Run development server:
+   ```bash
+   npm run dev
+
+Open http://localhost:3000 to see the app in the browser.
