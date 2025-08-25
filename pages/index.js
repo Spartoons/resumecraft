@@ -123,8 +123,17 @@ export default function Home() {
           <button
             onClick={handleAnalyze}
             disabled={isLoading}
-            className={`px-8 py-4 text-lg font-bold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg
-              ${isLoading ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+            className={`
+              flex items-center justify-center
+              px-10 py-4 
+              text-lg font-semibold 
+              rounded-full 
+              transition-all duration-300 transform 
+              shadow-md
+              ${isLoading 
+                ? 'bg-gray-300 text-gray-600 cursor-not-allowed' 
+                : 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 hover:scale-105'}
+            `}
           >
             {isLoading && (
               <svg
@@ -151,6 +160,7 @@ export default function Home() {
             {isLoading ? 'Analyzing...' : 'Analyze Resume'}
           </button>
         </div>
+
 
 
         {/* Results */}
