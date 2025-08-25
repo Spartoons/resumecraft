@@ -112,10 +112,6 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans flex flex-col items-center">
       {/* Tailwind CSS is included globally via a CDN in the HTML file, so we can use its classes directly */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-      `}</style>
       
       {/* Header */}
       <header className="w-full bg-white shadow-md p-4 sticky top-0 z-50">
