@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeCraft MVP</title>
+    <!-- Importing the Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            margin: 0;
+            min-height: 100vh;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            /* Remove flex and align-items */
+        }
+
+        /* Utility classes to replicate Tailwind */
+        .w-full { width: 100%; }
+        .border-none { border: none; }
+        .max-w-7xl { max-width: 80rem; } /* 1280px */
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .flex-col { flex-direction: column; }
+        .space-x-2 > * + * { margin-left: 0.5rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+        .space-y-8 > * + * { margin-top: 2rem; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .shadow-inner { box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06); }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-full { border-radius: 9999px; }
+        .bg-white { background-color: #fff; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+        .bg-gray-400 { background-color: #9ca3af; }
+        .bg-gray-500 { color: #6b7280; }
+        .bg-green-600 { background-color: #059669; }
+        .hover\:bg-green-700:hover { background-color: #047857; }
+        .bg-red-100 { background-color: #fee2e2; }
+        .bg-yellow-400 { background-color: #facc15; }
+        .text-white { color: #fff; }
+        .text-gray-900 { color: #111827; }
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-500 { color: #6b7280; }
+        .text-red-700 { color: #b91c1c; }
+        .text-green-600 { color: #059669; }
+        .text-yellow-800 { color: #92400e; }
+        .fixed { position: fixed; }
+        .z-100 { z-index: 1000; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-6xl { font-size: 3.75rem; }
+        .text-7xl { font-size: 4.5rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .font-extrabold { font-weight: 800; }
+        .text-center { text-align: center; }
+        .transition-colors { transition-property: background-color, border-color, color, fill, stroke; transition-duration: 300ms; }
+        .transition-all { transition-property: all; transition-duration: 300ms; }
+        .hover\:scale-105:hover { --tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: scale(var(--tw-scale-x), var(--tw-scale-y)); }
+        .hover\:bg-gray-300:hover { background-color: #e8eaec; }
+        .cursor-pointer { cursor: pointer; }
+        .cursor-not-allowed { cursor: not-allowed; }
+        .border-2 { border-width: 2px; }
+        .border-dashed { border-style: dashed; }
+        .border { border-width: 1px; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .border-green-600 { border-color: #16a34a; }
+        .hover\:border-green-500:hover { border-color: #22c55e; }
+        .focus\:ring-green-500:focus { --tw-ring-color: #22c55e; box-shadow: 0 0 0 calc(2px + 0px) var(--tw-ring-color); }
+        .focus\:border-green-500:focus { border-color: #22c55e; }
+        .flex-grow { flex-grow: 1; }
+        .resize-none { resize: none; }
+        .sticky { position: sticky; }
+        .top-0 { top: 0; }
+        .z-50 { z-index: 50; }
+        .hidden { display: none; }
+        .sm\:inline-block { display: none; }
+        @media (min-width: 640px) {
+            .sm\:inline-block { display: inline-block; }
+            .sm\:p-6 { padding: 1.5rem; }
+            .sm\:text-4xl { font-size: 2.25rem; }
+            .sm\:text-7xl { font-size: 4.5rem; }
+        }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .gap-6 { gap: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .ml-2 { margin-left: 0.5rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .disabled {
+          background-color: #9ca3af;
+          color: #4b5563;
+          cursor: not-allowed;
+        }
+        .hidden-result {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: translateY(20px);
+        }
+        .visible-result {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+            .lg\:p-8 { padding: 2rem; }
+            .lg\:space-y-8 > * + * { margin-top: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Message Box UI (replaces alert) -->
+    <div id="message-box" class="fixed top-0 left-1/2 -translate-x-1/2 z-100 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+      <p id="message-text"></p>
+    </div>
+
+    <!-- Header -->
+    <header class="w-full bg-white shadow-md px-8 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-8 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="logo.png" alt="ResumeCraft Logo" style="height:40px; width:30px;" />
+                <h1 class="text-2xl font-bold text-gray-900">ResumeCraft</h1>
+            </div>
+            <!-- Share button (Optional MVP Extra) -->
+            <button class="sm:inline-block px-4 py-2 text-sm font-medium text-gray-600 bg-white rounded-lg hover:bg-gray-300 transition-colors border-none">
+                Share
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Sectio-->
+    <main class="flex-grow mx-auto p-2 sm:p-3 lg:p-4" style="width:90%;">
+        <h2 class="text-center text-3xl sm:text-4xl font-extrabold text-gray-900 mb-1">
+            Optimize Your Resume for ATS
+        </h2>
+
+        <div class="space-y-3 mb-3">
+            <!-- Resume Field -->
+            <div class="flex flex-col space-y-3 mb-3">
+                <h3 class="text-xl font-semibold text-gray-700">Your Resume</h3>
+                <!-- Drag & Drop Area / File Upload -->
+                <div id="resume-drop-area" class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center text-gray-500 hover:border-green-500 transition-colors cursor-pointer" style="max-height:80px;"">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="height:40px; width:40px;" class="mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v5" />
+                    </svg>
+                    <p class="mt-2 text-sm">Drag & drop or click to upload (PDF/DOCX)</p>
+                    <input type="file" id="resume-file-input" class="hidden" accept=".pdf,.doc,.docx" />
+                </div>
+                <!-- Paste Field -->
+                 <textarea id="resume-text-area" class="w-full p-4 text-sm rounded-xl border border-gray-300 transition-colors shadow-sm resize-none mt-6" style="min-height:100px;" placeholder="Or paste your resume text here..."></textarea>
+            </div> 
+
+            <!-- Job Description Field -->
+            <div class="flex flex-col space-y-1">
+                <h3 class="text-xl font-semibold text-gray-700">Job Description</h3>
+                <textarea id="job-description-area"  class="w-full p-4 text-sm rounded-xl border border-gray-300  transition-colors shadow-sm resize-none" style="min-height:100px;" placeholder="Paste the job description here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Analyze Button -->
+        <div class="flex justify-center mt-6 mb-8">
+            <button id="analyze-btn" class="px-8 py-4 text-lg text-white bg-green-600 font-bold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg border-none">
+                <span id="analyze-text">Analyze Resume</span>
+                <svg id="loading-spinner" class="animate-spin h-5 w-5 text-white inline-block mr-2 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <section id="results-section" class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-6 lg:space-y-8 hidden-result"></section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-white shadow-inner p-4 mt-8">
+        <div class="max-w-7xl mx-auto text-center text-sm text-gray-500">
+            &copy; <span id="current-year"></span> ResumeCraft. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // DOM element references
+        const resumeTextArea = document.getElementById('resume-text-area');
+        const jobDescriptionArea = document.getElementById('job-description-area');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const resultsSection = document.getElementById('results-section');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const analyzeText = document.getElementById('analyze-text');
+        const resumeDropArea = document.getElementById('resume-drop-area');
+        const resumeFileInput = document.getElementById('resume-file-input');
+        const currentYear = document.getElementById('current-year');
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+
+        // Function to show a custom message box
+        const showMessageBox = (message, duration = 3000, color = 'bg-red-600') => {
+            messageText.textContent = message;
+            messageBox.className = `fixed top-4 left-1/2 -translate-x-1/2 z-[100] text-white px-6 py-3 rounded-lg shadow-lg ${color}`;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, duration);
+        };
+
+        // Update the footer year
+        currentYear.textContent = new Date().getFullYear();
+
+        // Handle file upload click
+        resumeDropArea.addEventListener('click', () => {
+            resumeFileInput.click();
+        });
+        resumeFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                // In a real app, you'd send the file to a backend for parsing.
+                // This is a simple simulation.
+                const reader = new FileReader();
+                reader.onload = () => {
+                    resumeTextArea.value = `Senior Software Engineer
+John Doe
+...
+(Content from file would be processed and appear here)`;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Handle drag and drop for file upload
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            resumeDropArea.addEventListener(eventName, e => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        resumeDropArea.addEventListener('drop', e => {
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                resumeFileInput.files = e.dataTransfer.files; // Assign the dropped file to the input
+                const event = new Event('change', { bubbles: true });
+                resumeFileInput.dispatchEvent(event); // Trigger the change event
+            }
+        });
+
+        // Function to animate the match score
+        const animateScore = (finalScore) => {
+            const scoreElement = document.getElementById('match-score');
+            let currentScore = 0;
+            const step = finalScore / 100;
+            const interval = setInterval(() => {
+                currentScore += step;
+                if (currentScore >= finalScore) {
+                    currentScore = finalScore;
+                    clearInterval(interval);
+                }
+                scoreElement.textContent = `${Math.round(currentScore)}%`;
+            }, 10);
+        };
+
+        // Main analysis function
+        const handleAnalyze = async () => {
+            if (!resumeTextArea.value || !jobDescriptionArea.value) {
+                showMessageBox('Please provide both resume and job description text.', 3000, 'bg-yellow-400 text-yellow-800');
+                return;
+            }
+
+            // Show loading state
+            analyzeBtn.classList.add('disabled');
+            analyzeBtn.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+            analyzeText.textContent = 'Analyzing...';
+            resultsSection.classList.add('hidden-result');
+            resultsSection.classList.remove('visible-result');
+
+            try {
+                // Simulate a network request
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Dummy results data to simulate API response
+                const dummyResults = {
+                    matchScore: 67,
+                    missingKeywords: ['Agile', 'DevOps', 'CI/CD', 'Docker'],
+                    suggestedRephrases: [
+                        {
+                            original: 'Managed software development lifecycle',
+                            suggestion: 'Spearheaded the entire software development lifecycle, utilizing Agile methodologies.',
+                        },
+                        {
+                            original: 'Worked on cloud infrastructure',
+                            suggestion: 'Designed and implemented scalable cloud infrastructure solutions on AWS.',
+                        },
+                    ],
+                };
+
+                // Render the results section
+                renderResults(dummyResults);
+
+                // Scroll to the results section after rendering
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                showMessageBox('Analysis failed. Please try again.');
+            } finally {
+                // Hide loading state
+                analyzeBtn.classList.remove('disabled');
+                analyzeBtn.disabled = false;
+                loadingSpinner.classList.add('hidden');
+                analyzeText.textContent = 'Analyze Resume';
+            }
+        };
+
+        // Function to render the results into the DOM
+        const renderResults = (data) => {
+            let missingKeywordsHtml = data.missingKeywords.length > 0
+                ? data.missingKeywords.map(keyword => `<span class="bg-red-100 text-red-700 px-3 py-1 text-sm font-medium rounded-full">${keyword}</span>`).join('')
+                : '<p class="text-gray-500 text-sm">Great! You have all the key terms.</p>';
+
+            let suggestedRephrasesHtml = data.suggestedRephrases.map(item => `
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <p class="text-sm text-gray-500 mb-1">
+                        <span class="font-medium text-gray-600">Original:</span> ${item.original}
+                    </p>
+                    <p class="text-base text-gray-700">
+                        <span class="font-medium text-green-600">Suggestion:</span> ${item.suggestion}
+                    </p>
+                    <button class="mt-2 px-3 py-1 text-xs text-green-600 font-medium rounded-lg border border-green-600 hover:bg-green-50 transition-colors" onclick="showMessageBox('Replace functionality for Pro users only.');">
+                        Replace
+                    </button>
+                </div>
+            `).join('');
+
+            const isProUser = false; // Simulates a user's subscription status
+            const downloadButtonHtml = `
+                <div class="text-center mt-6">
+                    <button
+                        class="px-6 py-3 font-bold rounded-full transition-colors duration-300 ${isProUser ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}"
+                        ${!isProUser ? 'disabled' : ''}
+                        onclick="showMessageBox('This is a paid feature.');"
+                    >
+                        Download Optimized Resume
+                        <span class="ml-2 px-2 py-0.5 text-xs bg-yellow-400 text-yellow-800 rounded-full font-bold">PRO</span>
+                    </button>
+                </div>
+            `;
+
+            resultsSection.innerHTML = `
+                <h3 class="text-2xl font-bold text-gray-800">Analysis Results</h3>
+                <div>
+                    <p class="text-xl font-semibold text-gray-700 mb-2">Match Score</p>
+                    <div class="flex items-center justify-center">
+                        <div id="match-score" class="text-6xl sm:text-7xl font-extrabold text-green-600 transition-colors">0%</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Missing Keywords</h4>
+                    <div class="flex flex-wrap gap-2">${missingKeywordsHtml}</div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Suggested Rephrases</h4>
+                    <div class="space-y-4">${suggestedRephrasesHtml}</div>
+                </div>
+                ${downloadButtonHtml}
+            `;
+
+            resultsSection.classList.remove('hidden-result');
+            resultsSection.classList.add('visible-result');
+
+            animateScore(data.matchScore);
+        };
+
+        // Attach event listener to the analyze button
+        analyzeBtn.addEventListener('click', handleAnalyze);
+
+    </script>
+</body>
+</html>
